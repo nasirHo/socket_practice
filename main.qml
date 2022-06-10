@@ -13,7 +13,7 @@ Window {
             target: server
             function onNewMessage(type, name, ba) {
                 listModelMessages.append({
-                                             message: ba + ""
+                                             message: name + "\n" + ba
                                          })
                 listViewMessages.positionViewAtEnd()
             }

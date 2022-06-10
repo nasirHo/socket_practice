@@ -54,9 +54,11 @@ void server::onReadyRead()
 
     if(recvJO.value("type").toString() == "join"){
         clients_names.insert(this->getClientKey(client), recvJO.value("name").toString());
+        emit newMessage(recvJO.value("type").toString().toUtf8(), "Server", recvJO.value("body").toString().toUtf8());
+    }else{
+        emit newMessage(recvJO.value("type").toString().toUtf8(), recvJO.value("name").toString().toUtf8(), recvJO.value("body").toString().toUtf8());
     }
 
-    emit newMessage(recvJO.value("type").toString().toUtf8(), recvJO.value("name").toString().toUtf8(), recvJO.value("body").toString().toUtf8());
 }
 
 void server::onClientDisconnected()
@@ -67,7 +69,7 @@ void server::onClientDisconnected()
         return;
     }
 
-    emit newMessage("left", clients_names[this->getClientKey(client)], this->getClientKey(client) + " Left");
+    emit newMessage("left", "Server", clients_names[this->getClientKey(client)] +" ("+ this->getClientKey(client) + ") Left");
     clients.remove(this->getClientKey(client));
 
 }
