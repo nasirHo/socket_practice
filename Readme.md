@@ -1,10 +1,12 @@
 # Socket_server
 A Socket server implement by QT 5.15
+![](./img/example.png)
 ## Dependency
 - Ubuntu 18.04
     - build-essential
     - cmake
-    - mesa-common-dev libglu1-mesa-dev
+    - mesa-common-dev
+    - libglu1-mesa-dev
     - qt515base
     - qt515quickcontrols2
 ```sh
@@ -47,3 +49,5 @@ cmake ..
 cmake --build .
 ```
 ## Usage
+1. Open and start listening...
+![](./img/server.png)
