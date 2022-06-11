@@ -30,6 +30,7 @@ private:
     QTcpServer* server_socket;
     QHash<QString, QTcpSocket*> clients;
     QHash<QString, QString> clients_names;
+    QHash<QString, QString> clients_names_reverse;
 };
 
 #endif // SERVER_H

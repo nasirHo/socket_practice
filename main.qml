@@ -17,43 +17,44 @@ Window {
                                          })
                 listViewMessages.positionViewAtEnd()
             }
-        }
+    }
 
-        ColumnLayout {
-            anchors.fill: parent
-            anchors.margins: 10
-            ListView {
-                id: listViewMessages
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                clip: true
-                model: ListModel {
-                    id: listModelMessages
-                    ListElement {
-                        message: "Welcome to chat server"
-                    }
+
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.margins: 10
+        ListView {
+            id: listViewMessages
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            clip: true
+            model: ListModel {
+                id: listModelMessages
+                ListElement {
+                    message: "Welcome to chat server"
                 }
-                delegate: ItemDelegate {
-                    text: message
-                }
-                ScrollBar.vertical: ScrollBar {}
             }
-            RowLayout {
+            delegate: ItemDelegate {
+                text: message
+            }
+            ScrollBar.vertical: ScrollBar {}
+        }
+        RowLayout {
+            Layout.fillWidth: true
+            TextField {
+                id: textFieldMessage
+                placeholderText: qsTr("Your message ...")
                 Layout.fillWidth: true
-                TextField {
-                    id: textFieldMessage
-                    placeholderText: qsTr("Your message ...")
-                    Layout.fillWidth: true
-                    onAccepted: buttonSend.clicked()
-                }
-                Button {
-                    id: buttonSend
-                    text: qsTr("Send")
-                    onClicked: {
-                        server.sendMessage(textFieldMessage.text)
-                        textFieldMessage.clear()
-                    }
+                onAccepted: buttonSend.clicked()
+            }
+            Button {
+                id: buttonSend
+                text: qsTr("Send")
+                onClicked: {
+                    server.sendMessage(textFieldMessage.text)
+                    textFieldMessage.clear()
                 }
             }
         }
+    }
 }

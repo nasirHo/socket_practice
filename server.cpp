@@ -53,8 +53,23 @@ void server::onReadyRead()
     QJsonObject recvJO = recvJD.object();
 
     if(recvJO.value("type").toString() == "join"){
-        clients_names.insert(this->getClientKey(client), recvJO.value("name").toString());
-        emit newMessage(recvJO.value("type").toString().toUtf8(), "Server", recvJO.value("body").toString().toUtf8());
+        if(clients_names_reverse.contains(recvJO.value("name").toString())){
+            QJsonObject toSendO;
+            toSendO.insert("type", "changeName");
+            toSendO.insert("name", "Server");
+            toSendO.insert("body", recvJO.value("name").toString());
+
+
+            QJsonDocument toSendD;
+            toSendD.setObject(toSendO);
+            QByteArray toSendB = toSendD.toJson();
+            client->write(toSendB);
+            client->flush();
+        }else{
+            clients_names.insert(this->getClientKey(client), recvJO.value("name").toString());
+            clients_names_reverse.insert(recvJO.value("name").toString(), this->getClientKey(client));
+            emit newMessage(recvJO.value("type").toString().toUtf8(), "Server", recvJO.value("body").toString().toUtf8());
+        }
     }else{
         emit newMessage(recvJO.value("type").toString().toUtf8(), recvJO.value("name").toString().toUtf8(), recvJO.value("body").toString().toUtf8());
     }
@@ -71,6 +86,7 @@ void server::onClientDisconnected()
 
     emit newMessage("left", "Server", clients_names[this->getClientKey(client)] +" ("+ this->getClientKey(client) + ") Left");
     clients.remove(this->getClientKey(client));
+    clients_names_reverse.remove(clients_names[this->getClientKey(client)]);
     clients_names.remove(this->getClientKey(client));
 
 }
