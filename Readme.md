@@ -1,5 +1,5 @@
-# Socket_client
-A Socket client implement by QT 5.15
+# Socket_server
+A Socket server implement by QT 5.15
 ## Dependency
 - Ubuntu 18.04
     - build-essential

@@ -71,6 +71,7 @@ void server::onClientDisconnected()
 
     emit newMessage("left", "Server", clients_names[this->getClientKey(client)] +" ("+ this->getClientKey(client) + ") Left");
     clients.remove(this->getClientKey(client));
+    clients_names.remove(this->getClientKey(client));
 
 }
 
